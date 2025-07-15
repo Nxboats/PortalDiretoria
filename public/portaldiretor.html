@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanban Embarcações</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <style>
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1e293b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #6366f1;
+      border-radius: 6px;
+      border: 2px solid #1e293b;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-900 text-white font-sans m-0 p-0 overflow-auto h-screen w-screen">
+  <div class="w-screen h-screen overflow-auto">
+    <div class="transform scale-50 origin-top-left min-w-[200vw] min-h-[200vh] p-6">
+      <h1 class="text-2xl font-bold mb-6">Kanban das Embarcações (Grupos por Coluna)</h1>
+      <div class="grid grid-cols-[100px_repeat(6,1fr)] gap-4 w-full">
+        <div></div>
+        <div class="text-center font-semibold">26 a 29</div>
+        <div class="text-center font-semibold">31 a 34</div>
+        <div class="text-center font-semibold">36 a 37</div>
+        <div class="text-center font-semibold">40</div>
+        <div class="text-center font-semibold">41</div>
+        <div class="text-center font-semibold">50</div>
+        <div id="kanban-grid" class="contents"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+    const grupos = [
+      { nome: "26 a 29", id: "grupo-26-29", cor: "bg-blue-700" },
+      { nome: "31 a 34", id: "grupo-31-34", cor: "bg-indigo-700" },
+      { nome: "36 a 37", id: "grupo-36-37", cor: "bg-amber-700" },
+      { nome: "40", id: "grupo-40", cor: "bg-purple-700" },
+      { nome: "41", id: "grupo-41", cor: "bg-pink-700" },
+      { nome: "50", id: "grupo-50", cor: "bg-rose-700" }
+    ];
+
+    const grid = document.getElementById("kanban-grid");
+
+    meses.forEach(mes => {
+      const mesLabel = document.createElement("div");
+      mesLabel.className = "font-semibold text-blue-400 pt-2 text-sm";
+      mesLabel.innerText = mes;
+      grid.appendChild(mesLabel);
+
+      grupos.forEach(grupo => {
+        const cell = document.createElement("div");
+        cell.id = `${grupo.id}-${mes.toLowerCase()}`;
+        cell.className = "kanban-drop bg-gray-800 border border-gray-600 rounded p-2 space-y-2 max-h-[420px] overflow-y-auto scrollbar-hide";
+        grid.appendChild(cell);
+      });
+    });
+
+    grupos.forEach(grupo => {
+      meses.forEach(mes => {
+        new Sortable(document.getElementById(`${grupo.id}-${mes.toLowerCase()}`), {
+          group: grupo.id,
+          animation: 150
+        });
+      });
+    });
+
+    const mockCards = [
+      { text: "NX260-356", grupo: "grupo-26-29", mes: "jan", tipo: "DAI - JETSKI", status: "Liberada" },
+      { text: "NX260-357", grupo: "grupo-26-29", mes: "jan", tipo: "DAI - JETSKI", status: "Liberada" },
+      { text: "NX260-358", grupo: "grupo-26-29", mes: "jan", tipo: "DAI - JETSKI", status: "Liberada" },
+      { text: "NX260-359", grupo: "grupo-26-29", mes: "jan", tipo: "DAI - JETSKI", status: "Liberada" },
+      { text: "NX260-360", grupo: "grupo-26-29", mes: "jan", tipo: "DAI - JETSKI", status: "Liberada" },
+      { text: "NX260-361", grupo: "grupo-26-29", mes: "jan", tipo: "DAI - JETSKI", status: "Liberada" },
+      { text: "NX260-364", grupo: "grupo-40", mes: "jan", tipo: "NX 400", status: "Liberada" },
+      { text: "NX260-362", grupo: "grupo-31-34", mes: "fev", tipo: "NX 260", status: "Liberada" },
+      { text: "NX260-362", grupo: "grupo-31-34", mes: "fev", tipo: "NX 260", status: "Liberada" },
+      { text: "NX260-362", grupo: "grupo-31-34", mes: "fev", tipo: "NX 260", status: "Liberada" },
+      { text: "NX260-362", grupo: "grupo-31-34", mes: "fev", tipo: "NX 260", status: "Liberada" },
+      { text: "NX260-363", grupo: "grupo-36-37", mes: "mar", tipo: "NX 360", status: "Bloqueada" },
+      { text: "NX260-364", grupo: "grupo-40", mes: "abr", tipo: "NX 400", status: "Liberada" },
+      { text: "NX260-364", grupo: "grupo-40", mes: "abr", tipo: "NX 400", status: "Liberada" },
+      { text: "NX260-364", grupo: "grupo-40", mes: "abr", tipo: "NX 400", status: "Liberada" },
+      { text: "NX260-364", grupo: "grupo-40", mes: "abr", tipo: "NX 400", status: "Liberada" },
+      { text: "NX260-364", grupo: "grupo-40", mes: "abr", tipo: "NX 400", status: "Liberada" },
+      { text: "NX260-365", grupo: "grupo-41", mes: "mai", tipo: "NX 410", status: "Bloqueada" },
+      { text: "NX260-366", grupo: "grupo-50", mes: "jun", tipo: "NX 500", status: "Liberada" }
+    ];
+
+    mockCards.forEach(c => {
+      const card = document.createElement("div");
+      const grupoInfo = grupos.find(g => g.id === c.grupo);
+      const cor = grupoInfo?.cor ?? "bg-slate-700";
+
+      card.className = `${cor} rounded-xl p-2 shadow-md flex flex-col gap-1 text-white`;
+
+      card.innerHTML = `
+        <div class="flex justify-between items-center text-xs">
+          <div class="flex items-center gap-1 text-gray-300">
+            <span class="text-sm">↗</span>
+            <span>3</span>
+          </div>
+          <div class="flex items-center gap-2 text-base">
+            <span class="text-lime-300">$</span>
+            <span class="text-yellow-400">🎯</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-base font-semibold">
+          <span class="text-blue-100">🚢</span>
+          <span>${c.text}</span>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-100">
+          <span>👤</span>
+          <span>${c.tipo}</span>
+        </div>
+        <div class="flex items-center gap-1 ${c.status === 'Liberada' ? 'text-lime-400' : 'text-red-400'} font-medium text-xs mt-1">
+          <span>✔</span>
+          <span>${c.status}</span>
+        </div>
+      `;
+
+      document.getElementById(`${c.grupo}-${c.mes}`).appendChild(card);
+    });
+  </script>
+</body>
+</html>

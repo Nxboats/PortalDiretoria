@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal da Diretoria</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'gradient-x': 'gradient-x 10s ease infinite',
+          },
+          keyframes: {
+            'gradient-x': {
+              '0%, 100%': { backgroundPosition: 'left center' },
+              '50%': { backgroundPosition: 'right center' },
+            },
+          },
+        }
+      }
+    }
+  </script>
+</head>
+
+<body
+  class="h-screen w-screen bg-gradient-to-r from-blue-900 via-blue-800 to-gray-900 animate-gradient-x bg-[length:200%_200%] flex items-center justify-center text-white font-sans">
+
+  <div class="bg-white/10 backdrop-blur-lg p-10 rounded-xl shadow-2xl w-full max-w-sm border border-white/20">
+    <h1 class="text-2xl font-bold text-center mb-8 text-white">PORTAL DA DIRETORIA</h1>
+    <form class="space-y-6 text-white text-base">
+      <div>
+        <label for="usuario" class="block mb-1">👤 Usuário</label>
+        <input type="text" id="usuario" name="usuario" required
+          class="w-full px-4 py-2 rounded bg-white/20 text-white border border-white/30 placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Digite seu usuário" />
+      </div>
+      <div>
+        <label for="senha" class="block mb-1">🔒 Senha</label>
+        <input type="password" id="senha" name="senha" required
+          class="w-full px-4 py-2 rounded bg-white/20 text-white border border-white/30 placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Digite sua senha" />
+      </div>
+      <button type="button"
+        onclick="window.location.href='/portaldiretor.html'"
+        class="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-3 rounded shadow-lg">
+        Entrar
+      </button>
+    </form>
+  </div>
+
+</body>
+
+</html>
